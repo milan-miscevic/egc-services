@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpSkeleton;
+namespace EgcServices;
 
 class Sample
 {

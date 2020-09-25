@@ -1,13 +1,11 @@
 {
-    "name": "milan-miscevic/php-skeleton",
+    "name": "milan-miscevic/egc-services",
     "type": "project",
-    "description": "A starting point for other PHP projects",
+    "description": "EGC Services' testing task",
     "keywords": [
-        "skeleton application",
-        "php project",
-        "skeleton"
+        "egc services",
+        "testing task"
     ],
-    "license": "MIT",
     "authors": [
         {
             "name": "Milan Miščević",
@@ -28,12 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "PhpSkeleton\\": "src/"
+            "EgcServices\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PhpSkeleton\\Tests\\": "tests/"
+            "EgcServices\\Tests\\": "tests/"
         }
     },
     "scripts": {

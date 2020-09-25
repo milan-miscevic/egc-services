@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace PhpSkeleton\Tests;
+namespace EgcServices\Tests;
 
-use PhpSkeleton\Sample;
+use EgcServices\Sample;
 use PHPUnit\Framework\TestCase;
 
 class SampleTest extends TestCase
