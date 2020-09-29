@@ -1,0 +1,31 @@
+version: '3'
+services:
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./docker/nginx/docker.mmm.conf:/etc/nginx/conf.d/docker.mmm.conf
+      - ./logs:/var/log/nginx
+      - .:/var/www/html
+    depends_on:
+      - php
+  php:
+    build: ./docker/php/
+    volumes:
+      - ./logs:/var/log/xdebug
+      - .:/var/www/html
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:latest
+    command: "--innodb_use_native_aio=0"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=docker
+      - MYSQL_USER=docker
+      - MYSQL_PASSWORD=docker
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/mysql-data:/var/lib/mysql
