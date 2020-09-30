@@ -17,4 +17,12 @@ abstract class BaseEntity
     {
         return $this->id;
     }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
 }

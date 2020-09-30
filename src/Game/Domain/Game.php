@@ -55,9 +55,4 @@ class Game extends BaseEntity implements JsonSerializable
     {
         return $this->next;
     }
-
-    public function jsonSerialize()
-    {
-        return get_object_vars($this);
-    }
 }
