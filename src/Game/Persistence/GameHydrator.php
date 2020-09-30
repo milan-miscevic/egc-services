@@ -20,6 +20,7 @@ class GameHydrator extends BaseHydrator
     {
         $entity->setId((int) $data['id']);
         $entity->setName((string) $data['name']);
+        $entity->setStatus((string) $data['status']);
 
         return $entity;
     }
@@ -31,6 +32,7 @@ class GameHydrator extends BaseHydrator
     {
         return [
             'name' => $entity->getName(),
+            'status' => $entity->getStatus(),
         ];
     }
 }
