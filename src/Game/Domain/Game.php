@@ -20,6 +20,7 @@ class Game extends BaseEntity implements JsonSerializable
 
     private string $name = '';
     private string $status = self::STATUS_ACTIVE;
+    private ?int $next = null;
 
     public function setName(string $name): void
     {
@@ -43,6 +44,16 @@ class Game extends BaseEntity implements JsonSerializable
     public function getStatus(): string
     {
         return $this->status;
+    }
+
+    public function setNext(?int $next): void
+    {
+        $this->next = $next;
+    }
+
+    public function getNext(): ?int
+    {
+        return $this->next;
     }
 
     public function jsonSerialize()

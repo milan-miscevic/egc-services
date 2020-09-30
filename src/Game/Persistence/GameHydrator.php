@@ -18,9 +18,14 @@ class GameHydrator extends BaseHydrator
      */
     public function hydrate(BaseEntity $entity, array $data): Game
     {
+        if ($data['next'] !== null) {
+            $data['next'] = (int) $data['next'];
+        }
+
         $entity->setId((int) $data['id']);
         $entity->setName((string) $data['name']);
         $entity->setStatus((string) $data['status']);
+        $entity->setNext($data['next']);
 
         return $entity;
     }
@@ -33,6 +38,7 @@ class GameHydrator extends BaseHydrator
         return [
             'name' => $entity->getName(),
             'status' => $entity->getStatus(),
+            'next' => $entity->getNext(),
         ];
     }
 }
