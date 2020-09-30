@@ -52,13 +52,14 @@ abstract class BaseMapper
     abstract protected function createNewEntity(): BaseEntity;
 
     /**
-     * @param array<string, mixed> $data
+     * @param T2 $entity
      */
-    public function insert($data): int
+    public function insert(BaseEntity $entity): int
     {
         $sql = new Sql($this->adapter);
         /** @var Insert $insert */
         $insert = $sql->insert(static::$table);
+        $data = $this->hydrator->extract($entity);
         $insert->values($data);
         $statement = $sql->prepareStatementForSqlObject($insert);
         $result = $statement->execute();
