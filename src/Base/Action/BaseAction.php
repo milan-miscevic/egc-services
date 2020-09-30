@@ -30,7 +30,35 @@ abstract class BaseAction
 
         return $response
             ->withStatus($status)
-            ->withHeader('Content-Type', 'application/json')
-            ;
+            ->withHeader('Content-Type', 'application/json');
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     * @psalm-suppress MixedInferredReturnType
+     */
+    protected function sendHtml(Request $request, Response $response, string $template, array $data = [], int $status = 200): Response
+    {
+        /** @var string $scriptFilename */
+        $scriptFilename = $request->getServerParams()['SCRIPT_FILENAME'];
+        $templateFile = dirname($scriptFilename) . '/../view/' . $template . '.htm';
+
+        ob_start();
+        extract($data);
+        /** @psalm-suppress UnresolvableInclude */
+        require $templateFile;
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        if ($content === false) {
+            $content = '';
+        }
+
+        $response->getBody()->write($content);
+
+        /** @psalm-suppress MixedReturnStatement */
+        return $response
+            ->withStatus($status)
+            ->withHeader('Content-Type', 'text/html');
     }
 }
