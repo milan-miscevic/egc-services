@@ -18,9 +18,9 @@ class Game extends BaseEntity implements JsonSerializable
         self::STATUS_FINISHED => self::STATUS_FINISHED,
     ];
 
-    private string $name = '';
-    private string $status = self::STATUS_ACTIVE;
-    private ?int $next = null;
+    protected string $name = '';
+    protected string $status = self::STATUS_ACTIVE;
+    protected ?int $next = null;
 
     public function setName(string $name): void
     {
