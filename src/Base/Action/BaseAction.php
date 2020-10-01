@@ -15,14 +15,14 @@ abstract class BaseAction
     abstract public function __invoke(Request $request, Response $response, array $args): Response;
 
     /**
-     * @param mixed[] $data
+     * @param mixed $data
      */
-    protected function sendJson(Response $response, array $data, int $status = 200): Response
+    protected function sendJson(Response $response, $data, int $status = 200): Response
     {
         $payload = json_encode($data);
 
         if ($payload === false) {
-            $payload = '{"message": "Server error"}';
+            $payload = '{"messages": {"error": "Server error"}}';
             $status = 500;
         }
 
