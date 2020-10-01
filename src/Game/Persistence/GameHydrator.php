@@ -29,16 +29,4 @@ class GameHydrator extends BaseHydrator
 
         return $entity;
     }
-
-    /**
-     * @param Game $entity
-     */
-    public function extract(BaseEntity $entity): array
-    {
-        return [
-            'name' => $entity->getName(),
-            'status' => $entity->getStatus(),
-            'next' => $entity->getNext(),
-        ];
-    }
 }

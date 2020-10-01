@@ -22,5 +22,11 @@ abstract class BaseHydrator
      * @param T $entity
      * @return array<string, mixed>
      */
-    abstract public function extract(BaseEntity $entity): array;
+    public function extract(BaseEntity $entity): array
+    {
+        $data = $entity->jsonSerialize();
+        unset($data['id']);
+
+        return $data;
+    }
 }
