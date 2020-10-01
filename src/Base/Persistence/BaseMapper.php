@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EgcServices\Base\Persistence;
 
 use EgcServices\Base\Domain\BaseEntity;
+use EgcServices\Base\Persistence\Exception\EntityNotFound;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Sql\Insert;
 use Laminas\Db\Sql\Select;
@@ -44,6 +45,30 @@ abstract class BaseMapper
         }
 
         return $result;
+    }
+
+    /**
+     * @return T2
+     */
+    public function selectById(int $id): BaseEntity
+    {
+        $sql = new Sql($this->adapter);
+        /** @var Select $select */
+        $select = $sql->select(static::$table);
+        $select->where(['id' => $id]);
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $rows = $statement->execute();
+        /** @var false|array<string, mixed> $row */
+        $row = $rows->current();
+
+        if ($row === false) {
+            throw new EntityNotFound();
+        }
+
+        /** @var T2 $entity */
+        $entity = $this->hydrator->hydrate($this->createNewEntity(), $row);
+
+        return $entity;
     }
 
     /**
