@@ -16,6 +16,7 @@ class GameValidator extends BaseValidator
         'name' => [
             StringLength::class => [
                 'min' => 3,
+                'max' => 50,
             ],
         ],
     ];
