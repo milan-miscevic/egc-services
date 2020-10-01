@@ -5,15 +5,18 @@ declare(strict_types=1);
 namespace EgcServices\Game\Domain;
 
 use EgcServices\Base\Domain\BaseService;
+use EgcServices\Base\Domain\Exception\InvalidData;
 use EgcServices\Game\Persistence\GameMapper;
 
 class GameService extends BaseService
 {
     private GameMapper $gameMapper;
+    private GameValidator $gameValidator;
 
-    public function __construct(GameMapper $gameMapper)
+    public function __construct(GameMapper $gameMapper, GameValidator $gameValidator)
     {
         $this->gameMapper = $gameMapper;
+        $this->gameValidator = $gameValidator;
     }
 
     /**
@@ -25,10 +28,19 @@ class GameService extends BaseService
     }
 
     /**
-     * @param array<string, mixed> $data
+     * @param mixed $data
      */
     public function add($data): int
     {
-        return $this->gameMapper->insert($data);
+        if (!$this->gameValidator->isValid($data)) {
+            $ex = new InvalidData();
+            $ex->setErrors($this->gameValidator->getErrors());
+            throw $ex;
+        }
+
+        $game = new Game();
+        $game->setName((string) ($data['name'] ?? ''));
+
+        return $this->gameMapper->insert($game);
     }
 }
