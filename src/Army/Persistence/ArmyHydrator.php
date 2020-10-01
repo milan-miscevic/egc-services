@@ -32,6 +32,7 @@ class ArmyHydrator extends BaseHydrator
     {
         $data = parent::extract($entity);
 
+        /** @psalm-suppress MixedAssignment */
         $data['game_id'] = $data['gameId'];
         unset($data['gameId']);
 

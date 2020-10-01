@@ -41,6 +41,7 @@ class ArmyMapper extends BaseMapper
 
         $statement = $sql->prepareStatementForSqlObject($select);
         $rows = $statement->execute();
+        /** @var false|array<string, string> $row */
         $row = $rows->current();
 
         if ($row === false) {

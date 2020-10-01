@@ -43,8 +43,11 @@ class ArmyService extends BaseService
         $lowestPosition = $this->armyMapper->selectLowestPositionForGameId($gameId);
 
         $army = new Army();
+        /** @psalm-suppress MixedArrayAccess */
         $army->setName((string) $data['name']);
+        /** @psalm-suppress MixedArrayAccess */
         $army->setUnits((int) $data['units']);
+        /** @psalm-suppress MixedArrayAccess */
         $army->setStrategy((string) $data['strategy']);
         $army->setPosition($lowestPosition - 1);
         $army->setGameId($gameId);

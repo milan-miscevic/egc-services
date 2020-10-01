@@ -39,7 +39,8 @@ class GameService extends BaseService
         }
 
         $game = new Game();
-        $game->setName((string) ($data['name'] ?? ''));
+        /** @psalm-suppress MixedArrayAccess */
+        $game->setName((string) $data['name']);
 
         return $this->gameMapper->insert($game);
     }
