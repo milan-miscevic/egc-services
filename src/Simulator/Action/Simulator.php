@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace EgcServices\Simulator\Action;
 
 use EgcServices\Base\Action\BaseAction;
+use EgcServices\Simulator\Domain\Exception\GameFinished;
+use EgcServices\Simulator\Domain\Exception\GameNotFound;
 use EgcServices\Simulator\Domain\SimulatorService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -28,7 +30,16 @@ class Simulator extends BaseAction
             return $this->sendJson($response, ['message' => 'Invalid Game ID']);
         }
 
-        $message = $this->simulatorService->runRound();
+        /** @psalm-suppress MixedArrayAccess */
+        $gameId = (int) $data['gameid'];
+
+        try {
+            $message = $this->simulatorService->runRound($gameId);
+        } catch (GameNotFound $ex) {
+            $message = 'Invalid game';
+        } catch (GameFinished $ex) {
+            $message = 'Finished game';
+        }
 
         return $this->sendJson($response, ['message' => $message]);
     }

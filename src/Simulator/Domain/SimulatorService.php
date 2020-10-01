@@ -6,7 +6,11 @@ namespace EgcServices\Simulator\Domain;
 
 use EgcServices\Army\Persistence\ArmyMapper;
 use EgcServices\Base\Domain\BaseService;
+use EgcServices\Base\Persistence\Exception\EntityNotFound;
+use EgcServices\Game\Domain\Game;
 use EgcServices\Game\Persistence\GameMapper;
+use EgcServices\Simulator\Domain\Exception\GameFinished;
+use EgcServices\Simulator\Domain\Exception\GameNotFound;
 
 class SimulatorService extends BaseService
 {
@@ -19,8 +23,19 @@ class SimulatorService extends BaseService
         $this->armyMapper = $armyMapper;
     }
 
-    public function runRound(): int
+    public function runRound(int $gameId): int
     {
-        return rand(1, 10);
+        try {
+            /** @var Game $game */
+            $game = $this->gameMapper->selectById($gameId);
+        } catch (EntityNotFound $ex) {
+            throw new GameNotFound();
+        }
+
+        if ($game->getStatus() !== Game::STATUS_ACTIVE) {
+            throw new GameFinished();
+        }
+
+        return $gameId;
     }
 }
