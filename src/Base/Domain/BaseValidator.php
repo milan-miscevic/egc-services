@@ -41,7 +41,7 @@ abstract class BaseValidator
             }
 
             /** @psalm-suppress MixedArrayAccess */
-            $valid = $valid && $chain->isValid($data[$field]);
+            $valid = $chain->isValid($data[$field]) && $valid;
             /** @var array<string, string> $messages */
             $messages = $chain->getMessages();
             $this->errors = array_merge_recursive($this->errors, [$field => $messages]);
