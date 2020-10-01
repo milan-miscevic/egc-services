@@ -20,8 +20,16 @@ class Simulator extends BaseAction
 
     public function __invoke(Request $request, Response $response, array $args): Response
     {
-        $rand = $this->simulatorService->runRound();
+        $content = $request->getBody()->getContents();
+        /** @var mixed $data */
+        $data = json_decode($content, true);
 
-        return $this->sendJson($response, ['rand' => $rand], 200);
+        if (!isset($data['gameid'])) {
+            return $this->sendJson($response, ['message' => 'Invalid Game ID']);
+        }
+
+        $message = $this->simulatorService->runRound();
+
+        return $this->sendJson($response, ['message' => $message]);
     }
 }

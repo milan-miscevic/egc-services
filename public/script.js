@@ -66,7 +66,8 @@ function reloadGames()
     .then(data => {
         data.forEach(function(game, key) {
             addGameToTable(game.id, game.name, game.status);
-            addGameToSelect(game.id, game.name, game.status);
+            addGameToSelect("army-gameid", game.id, game.name, game.status);
+            addGameToSelect("simulator-game", game.id, game.name, game.status);
         });
     });
 }
@@ -87,13 +88,13 @@ function addGameToTable(id, name, status)
     row.appendChild(cell);
 }
 
-function addGameToSelect(id, name, status)
+function addGameToSelect(parent, id, name, status)
 {
     if (status != 'active') {
         return;
     }
 
-    var select = document.getElementById("army-gameid");
+    var select = document.getElementById(parent);
 
     var option = document.createElement("option");
     option.setAttribute('value', id);
@@ -118,3 +119,21 @@ function cleanErrors()
 {
     document.querySelector('span[id$="error"]').innerText = '';
 }
+
+document.getElementById("simulator-run").onclick = async function() {
+    var data = {gameid: document.getElementById('simulator-game').value};
+
+    fetch('/simulator', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+        var rounds = document.getElementById("rounds");
+        rounds.append(data.message);
+
+        var br = document.createElement("br");
+        rounds.appendChild(br);
+    });
+};
