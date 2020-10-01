@@ -1,0 +1,52 @@
+<?php
+
+declare(strict_types=1);
+
+namespace EgcServices\Army\Persistence;
+
+use EgcServices\Army\Domain\Army;
+use EgcServices\Base\Persistence\BaseMapper;
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Db\Sql\Select;
+use Laminas\Db\Sql\Sql;
+
+/**
+ * @extends BaseMapper<ArmyHydrator, Army>
+ */
+class ArmyMapper extends BaseMapper
+{
+    protected static string $table = 'army';
+
+    public function __construct(AdapterInterface $adapter, ArmyHydrator $hydrator)
+    {
+        $this->adapter = $adapter;
+        $this->hydrator = $hydrator;
+    }
+
+    protected function createNewEntity(): Army
+    {
+        return new Army();
+    }
+
+    public function selectLowestPositionForGameId(int $gameId): int
+    {
+        $sql = new Sql($this->adapter);
+
+        /** @var Select $select */
+        $select = $sql->select(static::$table);
+        $select->columns(['position']);
+        $select->where(['game_id' => $gameId]);
+        $select->order('position ASC');
+        $select->limit(1);
+
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $rows = $statement->execute();
+        $row = $rows->current();
+
+        if ($row === false) {
+            return 256;
+        }
+
+        return (int) $row['position'];
+    }
+}

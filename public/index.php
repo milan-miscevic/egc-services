@@ -18,5 +18,6 @@ $app = AppFactory::create();
 $app->get('/', EgcServices\Home\Action\Home::class);
 $app->get('/games', EgcServices\Game\Action\GameList::class);
 $app->post('/games/add', EgcServices\Game\Action\GameAdd::class);
+$app->post('/armies/add', EgcServices\Army\Action\ArmyAdd::class);
 
 $app->run();
