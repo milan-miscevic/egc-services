@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace EgcServices\Base\Domain;
 
-abstract class BaseEntity
+use JsonSerializable;
+
+abstract class BaseEntity implements JsonSerializable
 {
     protected int $id = 0;
 

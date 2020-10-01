@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace EgcServices\Game\Domain;
 
 use EgcServices\Base\Domain\BaseEntity;
-use JsonSerializable;
 use UnexpectedValueException;
 
-class Game extends BaseEntity implements JsonSerializable
+class Game extends BaseEntity
 {
     public const STATUS_ACTIVE = 'active';
     public const STATUS_FINISHED = 'finished';
