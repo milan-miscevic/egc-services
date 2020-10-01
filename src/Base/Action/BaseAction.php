@@ -22,7 +22,7 @@ abstract class BaseAction
         $payload = json_encode($data);
 
         if ($payload === false) {
-            $payload = '{"messages": {"error": "Server error"}}';
+            $payload = '{"errors": {"general": "Server error"}}';
             $status = 500;
         }
 
