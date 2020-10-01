@@ -6,11 +6,43 @@
 </head>
 <body>
 
-Name: <input type="text" id="game-name"> <span id="game-name-error"></span>
-<br>
-<button id="game-add">Add a game</button>
+<div style="width: 50%; float: left;">
 
-<table id="game-list"></table>
+    Name: <input type="text" id="game-name"> <span id="game-name-error"></span>
+    <br>
+    <button id="game-add">Add a game</button>
+
+    <hr>
+
+    Game ID:
+    <select id="army-gameid"></select> <span id="army-gameid-error"></span>
+    <br>
+    Name: <input type="text" id="army-name"> <span id="army-name-error"></span>
+    <br>
+    Units: <input type="text" id="army-units"> <span id="army-units-error"></span>
+    <br>
+    Strategy:
+    <select id="army-strategy">
+        <option value="random">random</option>
+        <option value="weakest">weakest</option>
+        <option value="strongest">strongest</option>
+    </select>
+    <span id="army-strategy-error"></span>
+    <br>
+    <button id="army-add">Add an army</button>
+
+    <hr>
+
+    <p>Games:</p>
+
+    <table id="game-list"></table>
+
+</div>
+
+<div style="width: 50%; float: left;">
+    <p>Rounds:</p>
+    <div id="rounds"></div>
+</div>
 
 <script src="script.js"></script>
 

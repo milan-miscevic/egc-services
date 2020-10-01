@@ -1,17 +1,10 @@
 window.onload = function() {
-    fetch('/games', {
-        method: 'GET',
-        headers: {'Content-Type': 'application/json'},
-    })
-    .then(response => response.json())
-    .then(data => {
-        data.forEach(function(game, key) {
-            addGame(game.id, game.name, game.status);
-        });
-    });
+    reloadGames();
 };
 
 document.getElementById("game-add").onclick = async function() {
+    cleanErrors();
+
     var name = document.getElementById('game-name').value;
     var data = {name: name};
 
@@ -24,7 +17,7 @@ document.getElementById("game-add").onclick = async function() {
     var data = await response.json();
 
     if (response.status === 200) {
-        addGame(data.id, name, 'active');
+        reloadGames();
     } else if (response.status === 400) {
         showErrors(data.errors, 'game');
     } else {
@@ -32,7 +25,53 @@ document.getElementById("game-add").onclick = async function() {
     }
 };
 
-function addGame(id, name, status)
+document.getElementById("army-add").onclick = async function() {
+    cleanErrors();
+
+    var name = document.getElementById('army-name').value;
+    var data = {
+        name: name,
+        units: document.getElementById('army-units').value,
+        strategy: document.getElementById('army-strategy').value,
+        gameid: document.getElementById('army-gameid').value,
+    };
+
+    var response = await fetch('/armies/add', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data),
+    });
+
+    var data = await response.json();
+
+    if (response.status === 200) {
+        reloadGames();
+    } else if (response.status === 400) {
+        showErrors(data.errors, 'army');
+    } else {
+        //
+    }
+};
+
+function reloadGames()
+{
+    document.getElementById("game-list").innerHTML = '';
+    document.getElementById("army-gameid").innerHTML = '';
+
+    fetch('/games', {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+    })
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(function(game, key) {
+            addGameToTable(game.id, game.name, game.status);
+            addGameToSelect(game.id, game.name, game.status);
+        });
+    });
+}
+
+function addGameToTable(id, name, status)
 {
     var table = document.getElementById("game-list");
 
@@ -48,6 +87,20 @@ function addGame(id, name, status)
     row.appendChild(cell);
 }
 
+function addGameToSelect(id, name, status)
+{
+    if (status != 'active') {
+        return;
+    }
+
+    var select = document.getElementById("army-gameid");
+
+    var option = document.createElement("option");
+    option.setAttribute('value', id);
+    option.appendChild(document.createTextNode(name));
+    select.appendChild(option);
+}
+
 function showErrors(errors, prefix)
 {
     for (const field in errors) {
@@ -59,4 +112,9 @@ function showErrors(errors, prefix)
 
         document.getElementById(prefix + '-' + field + '-error').innerText = messages.join(' ');
     }
+}
+
+function cleanErrors()
+{
+    document.querySelector('span[id$="error"]').innerText = '';
 }
