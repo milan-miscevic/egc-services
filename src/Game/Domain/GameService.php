@@ -27,6 +27,11 @@ class GameService extends BaseService
         return $this->gameMapper->selectAll();
     }
 
+    public function getById(int $id): Game
+    {
+        return $this->gameMapper->selectById($id);
+    }
+
     /**
      * @param mixed $data
      */
