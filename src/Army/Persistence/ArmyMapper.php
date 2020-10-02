@@ -29,7 +29,7 @@ class ArmyMapper extends BaseMapper
         return new Army();
     }
 
-    public function selectLowestPositionForGameId(int $gameId): int
+    public function selectHighestPositionForGameId(int $gameId): int
     {
         $sql = new Sql($this->adapter);
 
@@ -37,7 +37,7 @@ class ArmyMapper extends BaseMapper
         $select = $sql->select(static::$table);
         $select->columns(['position']);
         $select->where(['game_id' => $gameId]);
-        $select->order('position ASC');
+        $select->order('position DESC');
         $select->limit(1);
 
         $statement = $sql->prepareStatementForSqlObject($select);
@@ -46,7 +46,7 @@ class ArmyMapper extends BaseMapper
         $row = $rows->current();
 
         if ($row === false) {
-            return 256;
+            return 0;
         }
 
         return (int) $row['position'];

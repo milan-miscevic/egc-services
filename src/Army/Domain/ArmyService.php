@@ -40,7 +40,7 @@ class ArmyService extends BaseService
 
         $gameId = (int) ($data['gameid'] ?? 0);
 
-        $lowestPosition = $this->armyMapper->selectLowestPositionForGameId($gameId);
+        $highestPosition = $this->armyMapper->selectHighestPositionForGameId($gameId);
 
         $army = new Army();
         /** @psalm-suppress MixedArrayAccess */
@@ -49,7 +49,7 @@ class ArmyService extends BaseService
         $army->setUnits((int) $data['units']);
         /** @psalm-suppress MixedArrayAccess */
         $army->setStrategy((string) $data['strategy']);
-        $army->setPosition($lowestPosition - 1);
+        $army->setPosition($highestPosition + 1);
         $army->setGameId($gameId);
 
         return $this->armyMapper->insert($army);

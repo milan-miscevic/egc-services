@@ -22,7 +22,7 @@ class Army extends BaseEntity
     protected string $name = '';
     protected int $units = 0;
     protected string $strategy = self::STRATEGY_RANDOM;
-    protected int $position = 255;
+    protected int $position = 0;
     protected int $gameId = 0;
 
     public function setName(string $name): void
