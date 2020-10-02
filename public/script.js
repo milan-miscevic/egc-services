@@ -125,6 +125,18 @@ function cleanErrors()
 }
 
 document.getElementById("simulator-run").onclick = async function() {
+    if (document.getElementById('simulator-autorun').checked) {
+        while (true) {
+            runRound();
+            await sleep(2000);
+        }
+    } else {
+        runRound();
+    }
+};
+
+function runRound()
+{
     var data = {gameid: document.getElementById('simulator-game').value};
 
     fetch('/simulator', {
@@ -140,4 +152,8 @@ document.getElementById("simulator-run").onclick = async function() {
         var br = document.createElement("br");
         rounds.appendChild(br);
     });
-};
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
