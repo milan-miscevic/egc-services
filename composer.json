@@ -42,7 +42,7 @@
     "scripts": {
         "coverage": "phpunit --coverage-text",
         "fix": "php-cs-fixer fix",
-        "phpstan": "phpstan analyse",
+        "phpstan": "phpstan analyse --memory-limit 1G",
         "psalm": "psalm --show-info=true",
         "sa": [
             "@phpstan",
