@@ -154,28 +154,6 @@ class SimulatorService extends BaseService
                 $game->setStatus(Game::STATUS_FINISHED);
             }
 
-            $next = null;
-
-            foreach ($activeArmies as $army) {
-                /** @var Army $army */
-                if ($army->getPosition() > $attacker->getPosition()) {
-                    $next = $army;
-                    break;
-                }
-            }
-
-            if ($next === null) {
-                $sliced = array_slice($activeArmies, 0, 1);
-                $next = array_shift($sliced);
-            }
-
-            if ($next !== null) {
-                $game->setNext($next->getId());
-            }
-
-            $this->gameMapper->update($game);
-            $this->armyMapper->update($defender);
-
             $result = new SimulatorResult(
                 true,
                 $attacker->getName(),
@@ -190,6 +168,28 @@ class SimulatorService extends BaseService
                 $defender->getName()
             );
         }
+
+        $next = null;
+
+        foreach ($activeArmies as $army) {
+            /** @var Army $army */
+            if ($army->getPosition() > $attacker->getPosition()) {
+                $next = $army;
+                break;
+            }
+        }
+
+        if ($next === null) {
+            $sliced = array_slice($activeArmies, 0, 1);
+            $next = array_shift($sliced);
+        }
+
+        if ($next !== null) {
+            $game->setNext($next->getId());
+        }
+
+        $this->gameMapper->update($game);
+        $this->armyMapper->update($defender);
 
         return $result;
     }
