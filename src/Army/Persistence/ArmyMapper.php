@@ -50,4 +50,31 @@ class ArmyMapper extends BaseMapper
 
         return (int) $row['position'];
     }
+
+    /**
+     * @return Army[]
+     */
+    public function selectForSimulation(int $gameId): array
+    {
+        $sql = new Sql($this->adapter);
+
+        /** @var Select $select */
+        $select = $sql->select(static::$table);
+        $select->where(['game_id' => $gameId]);
+        $select->order('position ASC');
+
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $rows = $statement->execute();
+
+        $result = [];
+
+        /** @var array<string, mixed> $row */
+        foreach ($rows as $row) {
+            /** @var Army $entity */
+            $entity = $this->hydrator->hydrate($this->createNewEntity(), $row);
+            $result[] = $entity;
+        }
+
+        return $result;
+    }
 }

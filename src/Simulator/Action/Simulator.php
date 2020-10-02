@@ -7,6 +7,7 @@ namespace EgcServices\Simulator\Action;
 use EgcServices\Base\Action\BaseAction;
 use EgcServices\Simulator\Domain\Exception\GameFinished;
 use EgcServices\Simulator\Domain\Exception\GameNotFound;
+use EgcServices\Simulator\Domain\Exception\NotEnoughArmies;
 use EgcServices\Simulator\Domain\SimulatorService;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -39,6 +40,8 @@ class Simulator extends BaseAction
             $message = 'Invalid game';
         } catch (GameFinished $ex) {
             $message = 'Finished game';
+        } catch (NotEnoughArmies $ex) {
+            $message = 'Not enough armies. Please, add more.';
         }
 
         return $this->sendJson($response, ['message' => $message]);

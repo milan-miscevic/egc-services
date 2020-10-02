@@ -11,9 +11,12 @@ use EgcServices\Game\Domain\Game;
 use EgcServices\Game\Persistence\GameMapper;
 use EgcServices\Simulator\Domain\Exception\GameFinished;
 use EgcServices\Simulator\Domain\Exception\GameNotFound;
+use EgcServices\Simulator\Domain\Exception\NotEnoughArmies;
 
 class SimulatorService extends BaseService
 {
+    const ARMY_COUNT = 5;
+
     private GameMapper $gameMapper;
     private ArmyMapper $armyMapper;
 
@@ -34,6 +37,12 @@ class SimulatorService extends BaseService
 
         if ($game->getStatus() !== Game::STATUS_ACTIVE) {
             throw new GameFinished();
+        }
+
+        $armies = $this->armyMapper->selectForSimulation($gameId);
+
+        if (count($armies) < static::ARMY_COUNT) {
+            throw new NotEnoughArmies();
         }
 
         return $gameId;
