@@ -9,6 +9,7 @@ use EgcServices\Base\Persistence\BaseMapper;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\Where;
 
 /**
  * @extends BaseMapper<ArmyHydrator, Army>
@@ -60,8 +61,12 @@ class ArmyMapper extends BaseMapper
 
         /** @var Select $select */
         $select = $sql->select(static::$table);
-        $select->where(['game_id' => $gameId]);
         $select->order('position ASC');
+
+        $where = new Where();
+        $where->equalTo('game_id', $gameId);
+        $where->greaterThan('units', 0);
+        $select->where($where);
 
         $statement = $sql->prepareStatementForSqlObject($select);
         $rows = $statement->execute();
