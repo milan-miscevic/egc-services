@@ -49,4 +49,9 @@ class GameService extends BaseService
 
         return $this->gameMapper->insert($game);
     }
+
+    public function update(Game $game): int
+    {
+        return $this->gameMapper->update($game);
+    }
 }
