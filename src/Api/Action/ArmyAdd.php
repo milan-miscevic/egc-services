@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EgcServices\Army\Action;
+namespace EgcServices\Api\Action;
 
 use EgcServices\Army\Domain\ArmyService;
 use EgcServices\Base\Action\BaseAction;

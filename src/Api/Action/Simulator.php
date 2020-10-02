@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EgcServices\Simulator\Action;
+namespace EgcServices\Api\Action;
 
 use EgcServices\Base\Action\BaseAction;
 use EgcServices\Simulator\Domain\Exception\GameFinished;

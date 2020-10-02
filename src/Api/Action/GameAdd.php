@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EgcServices\Game\Action;
+namespace EgcServices\Api\Action;
 
 use EgcServices\Base\Action\BaseAction;
 use EgcServices\Base\Domain\Exception\InvalidData;
