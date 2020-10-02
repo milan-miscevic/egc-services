@@ -65,14 +65,14 @@ function reloadGames()
     .then(response => response.json())
     .then(data => {
         data.forEach(function(game, key) {
-            addGameToTable(game.id, game.name, game.status);
+            addGameToTable(game.id, game.name, game.status, game.armies);
             addGameToSelect("army-gameid", game.id, game.name, game.status);
             addGameToSelect("simulator-game", game.id, game.name, game.status);
         });
     });
 }
 
-function addGameToTable(id, name, status)
+function addGameToTable(id, name, status, armies)
 {
     var table = document.getElementById("game-list");
 
@@ -85,6 +85,10 @@ function addGameToTable(id, name, status)
 
     var cell = document.createElement("td");
     cell.appendChild(document.createTextNode(name + ' (' + status + ')'));
+    row.appendChild(cell);
+
+    var cell = document.createElement("td");
+    cell.appendChild(document.createTextNode(armies));
     row.appendChild(cell);
 }
 
