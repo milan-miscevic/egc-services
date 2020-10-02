@@ -29,7 +29,7 @@ The project comes configured with my test domain (www.docker.mmm). Add this doma
 
 ## Notes
 
-This project uses the Slim framework and the PHP-DI dependency injection container. I've not used them before this project and I used this project to play and experiment with them.
+This project uses the Slim framework and the PHP-DI dependency injection container. I've not used them before this project and I used this project to play and experiment with them. Also, the Slim framework is advertises as a framework for generation of APIs.
 
 This project has three layers:
 
