@@ -76,8 +76,7 @@ class SimulatorService extends BaseService
             /** @psalm-suppress PossiblyNullArrayOffset */
             unset($activeArmies[$game->getNext()]);
         } else {
-            $sliced = array_slice($activeArmies, 0, 1);
-            $attacker = array_shift($sliced);
+            $attacker = array_shift($activeArmies);
         }
 
         // find a defender
