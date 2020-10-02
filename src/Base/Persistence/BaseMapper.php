@@ -10,6 +10,7 @@ use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Sql\Insert;
 use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\Update;
 
 /**
  * @template T1 of BaseHydrator
@@ -90,5 +91,23 @@ abstract class BaseMapper
         $result = $statement->execute();
 
         return (int) $result->getGeneratedValue();
+    }
+
+    /**
+     * @param T2 $entity
+     */
+    public function update(BaseEntity $entity): int
+    {
+        $sql = new Sql($this->adapter);
+        /** @var Update $update */
+        $update = $sql->update(static::$table);
+        $data = $this->hydrator->extract($entity);
+        $update->set($data);
+        $update->where(['id' => $entity->getId()]);
+
+        $statement = $sql->prepareStatementForSqlObject($update);
+        $result = $statement->execute();
+
+        return $result->getAffectedRows();
     }
 }
