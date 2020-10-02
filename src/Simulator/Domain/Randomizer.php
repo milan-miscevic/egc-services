@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EgcServices\Simulator\Domain;
 
-use EgcServices\Base\Domain\BaseEntity;
+use EgcServices\Army\Domain\Army;
 
 class Randomizer
 {
@@ -14,9 +14,9 @@ class Randomizer
     }
 
     /**
-     * @param BaseEntity[] $list
+     * @param Army[] $list
      */
-    public function randomFromArray(array $list): BaseEntity
+    public function randomFromArray(array $list): Army
     {
         $key = array_rand($list);
 

@@ -65,7 +65,6 @@ class ArmyMapper extends BaseMapper
 
         $where = new Where();
         $where->equalTo('game_id', $gameId);
-        $where->greaterThan('units', 0);
         $select->where($where);
 
         $statement = $sql->prepareStatementForSqlObject($select);
