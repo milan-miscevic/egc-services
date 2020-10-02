@@ -35,7 +35,23 @@ class Simulator extends BaseAction
         $gameId = (int) $data['gameid'];
 
         try {
-            $message = $this->simulatorService->runRound($gameId);
+            $result = $this->simulatorService->runRound($gameId);
+
+            if ($result->getStatus()) {
+                $message = sprintf(
+                    "%s attacked %s chosen as %s with damage %s",
+                    $result->getAttacker(),
+                    $result->getDefender(),
+                    $result->getStrategy(),
+                    $result->getDamage()
+                );
+            } else {
+                $message = sprintf(
+                    "%s didn't attack %s",
+                    $result->getAttacker(),
+                    $result->getDefender()
+                );
+            }
         } catch (GameNotFound $ex) {
             $message = 'Invalid game';
         } catch (GameFinished $ex) {

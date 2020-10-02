@@ -31,7 +31,7 @@ class SimulatorService extends BaseService
         $this->randomizer = $randomizer;
     }
 
-    public function runRound(int $gameId): string
+    public function runRound(int $gameId): SimulatorResult
     {
         // check the game
 
@@ -132,10 +132,7 @@ class SimulatorService extends BaseService
 
         usleep($attacker->getUnits() * 10); // reload time
 
-        $message = 'No attack';
-
         $attackChance = $this->randomizer->randomInt(0, 100);
-        $attackChance = -1;
 
         if ($attackChance <= $attacker->getUnits()) { // a successful attack
             if ($attacker->getUnits() > 1) {
@@ -179,12 +176,21 @@ class SimulatorService extends BaseService
             $this->gameMapper->update($game);
             $this->armyMapper->update($defender);
 
-            $attackerName = $attacker->getName();
-            $defenderName = $defender->getName();
-
-            $message = "{$attackerName} attacked {$defenderName} chosen as {$strategy} with damage {$damage}";
+            $result = new SimulatorResult(
+                true,
+                $attacker->getName(),
+                $defender->getName(),
+                $strategy,
+                $damage
+            );
+        } else {
+            $result = new SimulatorResult(
+                false,
+                $attacker->getName(),
+                $defender->getName()
+            );
         }
 
-        return $message;
+        return $result;
     }
 }
